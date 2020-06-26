@@ -1,0 +1,3 @@
+#!/bin/bash
+ip link set dev enp0s25 up
+dhcpcd enp0s25

@@ -1,0 +1,5 @@
+[Unit]
+Description=Ethernet Connection
+
+[Service]
+ExecStart=/home/aidanfoley/scripts/ethernet_connect.sh
