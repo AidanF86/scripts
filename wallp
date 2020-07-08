@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# wploc  = wallpaper folder                   (eg. /home/aidan/images/wallpapers)
+# wpfile = wallpaper file name                (eg. wallpaper.png)
+# wpname = wallpaper file name sans extension (eg. wallpaper)
+
+wploc=$(cat ~/.wallp/wploc)
+wpfile=$(cat ~/.wallp/wpfile)
+wpname=$(cat ~/.wallp/wpname)
+
+set_wallpaper () {
+	echo $wpext found - setting wallpaper
+	feh --bg-fill $wploc/$1$wpext
+	echo $1 > ~/.wallp/wpname
+	echo $1$wpext > ~/.wallp/wpfile
+	if ! [ -f $wploc/lock/$1.png ]; then
+		echo No corresponding lock image found - creating
+		scale_image_to_screen
+	fi
+}
+
+if ! [ -d $wploc/lock ]; then
+	echo lock directory not found - creating
+	mkdir $wploc/lock/
+fi
+
+if [ $# -eq 0 ]; then
+	echo "ok"
+	exit 1
+elif [ $1 = "-l" ]; then
+	echo Listing wallpapers:
+	ls $wploc/*.png
+	ls $wploc/*.jpg
+fi
+
+if [ -f "$wploc/$1.png" ]; then
+	wpext=.png
+	set_wallpaper $1
+elif [ -f "$wploc/$1.jpg" ]; then
+	wpext=.jpg
+	set_wallpaper $1
+elif ! [ $1 = "-l" ]; then
+	echo No file with the name $1 was located
+fi
+
