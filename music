@@ -1,0 +1,10 @@
+#!/bin/sh
+
+music=$(mpc -f " %artist% ~ %title%" | head -n 1)
+#lines=$(mpc -f " %artist% ~ %title%") | wc -l
+lines=2
+if [ $(mpc -f " %artist% ~ %title%" | wc -l) =  1 ]; then
+    echo " Nothing Playing"
+else
+    echo $music
+fi

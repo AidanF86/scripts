@@ -1,0 +1,2 @@
+#!/bin/sh
+scrot -e 'mv $f /hdd/images/screenshots/ || mv $f ~/images/screenshots || mv $f ~/'

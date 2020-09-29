@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Wacom Tablet Setup (WTS)
+
+#xsetwacom set 15 Button 1 "key +space" # Inner Left
+xsetwacom set 'Wacom Intuos PT S 2 Pad pad' Button 3 "key +ctrl z -ctrl" # Outer Left
+xsetwacom set 'Wacom Intuos PT S 2 Pen stylus' Button 2 "key +shift"
+xsetwacom set 'Wacom Intuos PT S 2 Pen stylus' Button 3 "key +space"
