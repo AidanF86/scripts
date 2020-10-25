@@ -1,0 +1,5 @@
+#!/bin/sh
+currentBrightness=$(cat /sys/class/backlight/intel_backlight/brightness)
+echo "brightness: $currentBrightness"
+newBrightness=$(( $currentBrightness + 100 ))
+echo $newBrightness > /sys/class/backlight/intel_backlight/brightness
