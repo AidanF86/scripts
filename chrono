@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "$(date -u +"%a %d ~ %I:%M %p")"
+echo "$(date +"%a %d ~ %I:%M %p")"

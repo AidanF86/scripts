@@ -1,0 +1,52 @@
+#!/bin/sh
+#for filename in ~/projects/terminal_eye/eye_blink/*.jpg; do
+#    clear
+#    jp2a --invert "$filename"
+#    sleep .04
+#done
+
+filename=$(basename "$1" .gif)
+
+if [ ! -d /tmp/.gif2a ]; then
+    mkdir "/tmp/.gif2a/"
+fi
+
+mkdir "/tmp/.gif2a/$filename"
+convert "$1" "/tmp/.gif2a/$filename/xx_%05d.jpg"
+
+for frame in /tmp/.gif2a/$filename/*.jpg; do
+    clear
+    jp2a --invert "$frame"
+    sleep .04
+done
+
+#positive=true
+#i=0
+#while [ true ]
+#do
+#    if [ $positive = true ]; then
+#        ((i++))
+#        if [[ "$i" -ge "15" ]]; then
+#            positive=false
+#        fi
+#    else
+#        #echo "going down"
+#        ((i--))
+#        if [[ "$i" -le "0" ]]; then
+#            positive=true
+#        fi
+#    fi
+#    clear
+#    if [[ "$i" -ge "10" ]]; then
+#        jp2a --invert "/home/aidan/projects/terminal_eye/eye_blink/xx_000$i.jpg"
+#    else
+#        jp2a --invert "/home/aidan/projects/terminal_eye/eye_blink/xx_0000$i.jpg"
+#    fi
+#    sleep .1
+#done
+
+#for filename in ~/projects/terminal_eye/eye_blink/*.jpg; do
+#    clear
+#    jp2a --invert "$filename"
+#    sleep .04
+#done

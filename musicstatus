@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ -z $BLOCK_BUTTON ]; then
+    music=$(mpc -f "%artist% ~ %title%" | head -n 1)
+    lines=2
+    if [ $(mpc -f "%artist% ~ %title%" | wc -l) =  1 ]; then
+        echo "Nothing Playing"
+    else
+        title=$(mpc -f "%title%" | head -n 1)
+        if [ "$title" = "" ]; then
+            name=$(mpc -f "%file%" | head -n 1)
+            name=$(basename -s ".opus" "$name");
+            echo "$name"
+        else
+            echo "$music"
+        fi
+    fi
+fi

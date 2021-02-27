@@ -1,0 +1,29 @@
+#!/bin/sh
+
+blink() {
+    for frame in ~/projects/terminal_eye/eye_blink-$1/*.jpg; do
+        clear
+        jp2a --invert "$frame"
+        sleep .005
+    done
+    clear
+    jp2a --invert "$default_frame"
+}
+
+RANDOM=$2
+
+default_frame="/home/aidan/projects/terminal_eye/eye_blink-$1/xx_00000.jpg"
+loops=0
+
+jp2a --invert "$default_frame"
+
+while [ true ]
+do
+    if [[ $RANDOM -ge "30000" ]] || [[ $loops -ge 24 ]]; then
+        loops=0
+        blink $1
+    else
+        ((loops++))
+        sleep .25
+    fi
+done

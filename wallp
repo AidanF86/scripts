@@ -1,0 +1,102 @@
+#!/bin/bash
+# Written by Aidan Foley, this is free software so do as you please with it
+# I made this since I have a lot of wallpapers and I like to be able to quickly switch between them
+
+# Takes input to set wallpapers and list image files in $wploc
+# Sets up the necessary files and directories if they are not found
+
+# wploc  = wallpaper folder                   (eg. /home/user/images/wallpapers)
+# wpfile = wallpaper file name                (eg. wallpaper.png)
+# wpname = wallpaper file name sans extension (eg. wallpaper)
+
+# Options:
+# wallp -l		        lists available wallpapers in wploc
+# wallp [wallpaper]		wallpaper standing for the name of a wallpaper (no file extension needed), will set the wallpaper to the file with that name, regardless of extension
+# wallp -d                runs dmenu with a list of wallpapers and sets the wallpaper to what is chosen
+# wallp -u                takes an image url as an input, will prompt for a name for the wallpaper
+# wallp -c                sets the wallpaper to what is in ~/.wallp/wpname, used for setting the wallpaper on startup
+# wallp -r                sets a random wallpaper
+
+# ex: [wallp -l beach_0]     lists wallpapers and sets the wallpaper to beach_0*, which is hopefully a file in $wploc
+
+setup () {
+	echo "Initializing setup process"
+	echo "Enter the path to your wallaper folder without a slash at the end (ex. /home/user/images/wallpapers)"
+	read wplocin
+	mkdir ~/.wallp/
+	echo $wplocin > ~/.wallp/wploc
+	touch ~/.wallp/wpname
+	echo "Setup complete"
+	wploc=$(cat ~/.wallp/wploc)
+	wpname=$(cat ~/.wallp/wpname)
+}
+
+refresh () {
+    wploc=$(cat ~/.wallp/wploc)
+    wpname=$(cat ~/.wallp/wpname)
+}
+
+set_wallpaper () {
+	if ! [ "$1" = "" ]; then
+        feh --bg-fill $wploc/$1.*
+	    echo $1 > ~/.wallp/wpname
+    fi
+}
+
+set_current () {
+    feh --bg-fill $wploc/$wpname.*
+}
+
+list () {
+    ls $wploc | sed 's/\.[^.]*$//'
+}
+
+random () {
+    feh --bg-fill --randomize $wploc/*.*
+    echo "RANDOM" > ~/.wallp/wpname
+}
+
+dmenu_list () {
+    set_wallpaper $(list | dmenu -fn "Fira Code Medium:pixelsize=26:antialias=true:autohint=true")
+}
+
+
+url=0
+
+refresh
+
+if [ ! -d ~/.wallp ]; then
+    setup
+fi
+
+while getopts ":ldcru" opt; do
+    case ${opt} in
+        l ) 
+            list
+            ;;
+        d )
+            dmenu_list
+            ;;
+        c )
+            set_current
+            ;;
+        r )
+            random
+            ;;
+        \? ) 
+            echo "Invalid option: $OPTARG. Usage: wallp [-l] [-d] [-c] [-r] [-u] [wallpaper name]" 
+            ;;
+        : )
+            echo "Invalid option: $OPTARG requires an argument" 
+    esac
+done
+shift $((OPTIND -1))
+
+if ! [ "$1" = "" ]; then 
+    if [ $url = 1 ]; then
+        echo "Using URL"
+        load_from_web $1
+    else
+        set_wallpaper $1
+    fi
+fi

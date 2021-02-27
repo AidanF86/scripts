@@ -1,0 +1,7 @@
+#!/bin/sh
+url=$(python /usr/scripts/ytsearch.py "$@")
+youtube-dl --extract-audio --audio-quality 0 --audio-format "opus" -o "/hdd/music/temp/%(title)s.%(ext)s" $url
+name=$(youtube-dl --get-filename -o "/hdd/music/temp/%(title)s" $url)
+name=$(basename "$name")
+mpc update --wait "temp/"
+mpc add "temp/$name.opus"
