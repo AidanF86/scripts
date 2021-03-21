@@ -1,2 +1,3 @@
 #!/bin/sh
 xrandr -s $(echo -e "3840x2160\n2560x1440\n1920x1080" | dmenu -fn "Fira Code Medium:pixelsize=26:antialias=true:autohint=true")
+wallp -c

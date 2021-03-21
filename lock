@@ -1,0 +1,10 @@
+#!/bin/sh
+selection=$(echo -e "lock\nsleep" | dmenu -fn "Fira Code Medium:pixelsize=26:antialias=true:autohint=true")
+case $selection in
+    lock)
+        slock &
+        ;;
+    sleep)
+        slock & systemctl suspend
+        ;;
+esac

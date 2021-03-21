@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo "$(amixer | grep 'Left: Playback' | awk -F'[][]' '{ print $2 }')"
+echo "$(amixer | grep 'Mono: Playback' | awk -F'[][]' '{ print $2 }')"
 
